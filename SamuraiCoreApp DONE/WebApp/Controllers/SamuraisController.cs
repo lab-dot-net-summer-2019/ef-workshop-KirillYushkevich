@@ -35,6 +35,10 @@ namespace WebApp.Controllers
 
             //TODO
             //Get single Samurai, including quotes and SecretIdentity with id = id (query param)
+            Samurai samurai = _context.Samurais.Where(s => s.Id == id)
+                 .Include(s => s.Quotes)
+                 .Include(s => s.SecretIdentity)
+                 .FirstOrDefault();
 
             if (samurai == null)
             {
@@ -60,6 +64,7 @@ namespace WebApp.Controllers
             {
                 //TODO
                 //Add samurai
+                _context.Samurais.Add(samurai);
                 return RedirectToAction(nameof(Index));
             }
             return View(samurai);
@@ -75,6 +80,10 @@ namespace WebApp.Controllers
 
             //TODO
             //Get single Samurai with quotes and SecretIdentity with id = id (query param)
+            Samurai samurai = _context.Samurais.Where(s => s.Id == id)
+                .Include(s => s.Quotes)
+                .Include(s => s.SecretIdentity)
+                .FirstOrDefault();
 
             if (samurai == null) {
                 return NotFound();
@@ -84,8 +93,8 @@ namespace WebApp.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        //    public async Task<IActionResult> Edit(int id, [Bind("Id,Name")] Samurai samurai)
-        public async Task<IActionResult> Edit(int id, Samurai samurai)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name")] Samurai samurai)
+        //public async Task<IActionResult> Edit(int id, Samurai samurai)
         {
             if (id != samurai.Id)
             {
@@ -98,6 +107,7 @@ namespace WebApp.Controllers
                 {
                     //TODO
                     //Update samurai 
+                    _context.Samurais.Update(samurai);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -125,6 +135,7 @@ namespace WebApp.Controllers
 
             //TODO
             //Get single Samurai with id = id (query param)
+            Samurai samurai = _context.Samurais.FirstOrDefault(s => s.Id == id);
 
             if (samurai == null) {
                 return NotFound();
@@ -140,6 +151,8 @@ namespace WebApp.Controllers
         {
             //TODO
             //Get single Samurai with id = id (query param)
+            //Samurai samurai = _context.Samurais.FirstOrDefault(s => s.Id == id);
+            _context.Samurais.Remove(_context.Samurais.FirstOrDefault(s => s.Id == id));
             //and remove
 
             return RedirectToAction(nameof(Index));

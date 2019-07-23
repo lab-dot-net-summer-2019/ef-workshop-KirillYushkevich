@@ -115,7 +115,14 @@ namespace SomeUI
             var samurai = new Samurai { Name = "Julie" };
             using (var context = new SamuraiContext()) {
                 context.Samurais.Add(samurai);
-                context.SaveChanges();
+                try
+                {
+                    context.SaveChanges();
+                }
+                catch(Exception e)
+                {
+
+                }
             }
         }
         private static void SimpleSamuraiQuery()
